@@ -1,0 +1,1 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿nginx的启动,停止,重启===### 启动```#基本启动nginx#根据配置文件启动nginx -c conf/nginx.conf#指定工作目录和配置文件启动nginx -p `pwd`/ -c conf/nginx.conf```### 停止```#查看进程号ps -ef|grep nginx# 从容停止kill -QUIT 进程号# 快速停止kill -INT 进程号# 强制停止kill -9 进程号```### 配置文件验证```nginx -t```### 重启```#一nginx -s reload#二kill -HUP 进程号```
