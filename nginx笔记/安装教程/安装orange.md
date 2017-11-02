@@ -57,7 +57,7 @@ make install LOR_HOME=/path/to/lor LORD_BIN=/path/to/lord
 ```$xslt
 which lord
 ```
-###### 使用
+###### 测试
 ```$xslt
 $ lord -h
 lor ${version}, a Lua web framework based on OpenResty.
@@ -77,8 +77,7 @@ Commands:
 cd lor_demo
 lord start
 ```
-之后访问http://localhost:8888/， 即可。
-
+之后访问http://localhost:8888/， 即可。表示测试成功.
 ### mysql数据安装
 创建一个数据库,供`orange`使用.默认创建数据库名称为`orange`
 ### 安装`orange`
@@ -181,3 +180,7 @@ help    Show help tips
 
 * 内置的Dashboard可通过http://localhost:9999访问
 * API Server默认在7777端口监听，如不需要API Server可删除nginx.conf里对应的配置
+
+### orange运行架构和原理
+如图:
+![orange运行原理](./orange_structure.png)

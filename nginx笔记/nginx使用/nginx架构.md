@@ -10,7 +10,7 @@ nginx.conf中的配置信息，根据其逻辑上的意义，对它们进行了�
 *  server:	http服务上支持若干虚拟主机。每个虚拟主机一个对应的server配置项，配置项里面包含该虚拟主机相关的配置。在提供mail服务的代理时，也可以建立若干server.每个server通过监听的地址来区分。
 *  location:	http服务中，某些特定的URL对应的一系列配置项。
 *  mail:	实现email相关的SMTP/IMAP/POP3代理时，共享的一些配置项（因为可能实现多个代理，工作在多个监听地址上）。
-
+> Nginx的配置信息分成了几个作用域(scope,有时也称作上下文)，这就是main, server, 以及location。
 ### 模块概述
 ##### 模块的分类
 * **event module:**	  搭建了独立于操作系统的事件处理机制的框架，及提供了各具体事件的处理。包括ngx_events_module， ngx_event_core_module和ngx_epoll_module等。nginx具体使用何种事件处理模块，这依赖于具体的操作系统和编译选项。
