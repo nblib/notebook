@@ -27,6 +27,7 @@ make install
 ```
 ###### 找到安装目录,默认为`/usr/local/openresty`,进入后可以看到有`bin`文件夹,`nginx`文件夹等
 ###### 配置环境变量
+添加环境变量,`orange`启动的时候会在环境变量中寻找这两个变量并调用.
 ```$xslt
 vi /etc/profile
 
@@ -40,6 +41,7 @@ Lor是一个运行在OpenResty上的基于Lua编写的Web框架.
 * 支持middleware机制，可在任意路由上挂载中间件.
 * 可作为HTTP API Server，也可用于构建传统的Web应用.
 
+> `orange`基于`lor`框架创建的监控网页
 ###### 安装
 ```$xslt
 git clone https://github.com/sumory/lor
@@ -80,6 +82,7 @@ lord start
 ### mysql数据安装
 创建一个数据库,供`orange`使用.默认创建数据库名称为`orange`
 ### 安装`orange`
+orange作用于`openresty`之上,通过插入lua代码控制`nginx`的行为,然后使用web页面显示出来.
 ###### 获取源码
 ```$xslt
 git clone https://github.com/sumory/orange.git
