@@ -1,10 +1,10 @@
-##### HttpServletRequest的getQueryString()和getParameter()方法的区别
+### HttpServletRequest的getQueryString()和getParameter()方法的区别
 AAA|getQueryString()| getParameter()
 ---|---|---
 方法|get|post,get
 参数|url后所有的内容字符串 ,未进行解码|解码后的键值对
 
-##### 获取请求参数的值和在request对象中set或者get属性区别
+### 获取请求参数的值和在request对象中set或者get属性区别
 ######   来源不同：
 * 参数（parameter)  
 是从客户端（浏览器）中由用户提供的，若是GET方法是从URL中
@@ -18,7 +18,7 @@ AAA|getQueryString()| getParameter()
 * 参数（parameter）不管前台传来的值语义是什么，在服务器获取时都以String类型看待，并且客户端的参数值只能是简单类型的值，不能是复杂类型，比如一个对象。
 * 属性（attribute）的值可以是任意一个Object类型。
 
-##### request,session,servlet生命周期
+### request,session,servlet生命周期
   1. request  
 每次请求到了时初始化,相应后销毁
   1. session  
