@@ -50,3 +50,9 @@ worker进程中，ngx_worker_process_cycle()函数就是这个无限循环的处
  	内容产生阶段
 * NGX_HTTP_LOG_PHASE:  
  	日志模块处理阶段
+
+###### 这些阶段有一些不会调用handler,也就是不能挂载模块
+* NGX_HTTP_FIND_CONFIG_PHASE
+* NGX_HTTP_POST_ACCESS_PHASE
+* NGX_HTTP_POST_REWRITE_PHASE
+* NGX_HTTP_TRY_FILES_PHASE

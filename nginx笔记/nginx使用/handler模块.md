@@ -4,35 +4,26 @@ handler模块
 ##### handler模块处理的结果通常有三种情况: 
 **处理成功，处理失败（处理的时候发生了错误）或者是拒绝去处理**。在拒绝处理的情况下，这个location的处理就会由默认的handler模块来进行处理。
 例如，当请求一个静态文件的时候，如果关联到这个location上的一个handler模块拒绝处理，就会由默认的ngx_http_static_module模块进行处理，该模块是一个典型的handler模块。
-### 模块配置结构
-对于模块配置信息的定义，命名习惯是ngx_http_<module name>_(main|srv|loc)_conf_t。
-```
-typedef struct
-{
-    ngx_str_t hello_string;
-    ngx_int_t hello_counter;
-}ngx_http_hello_loc_conf_t;
-```
-### 模块配置指令
-一个模块的配置指令是定义在一个静态数组中的。
-``` 
-static ngx_command_t ngx_http_hello_commands[] = {
-   {
-        ngx_string("hello_string"),
-        NGX_HTTP_LOC_CONF|NGX_CONF_NOARGS|NGX_CONF_TAKE1,
-        ngx_http_hello_string,
-        NGX_HTTP_LOC_CONF_OFFSET,
-        offsetof(ngx_http_hello_loc_conf_t, hello_string),
-        NULL },
+### 组成
+一个模块的组成包括如下:
+* 模块配置信息结构体
+    > 储存模块的配置信息.比如在配置文件中定义的配置,会被放到这个结构体中.
+* 模块的配置命令
+    > 一个数组,储存命令及命令的处理函数.
+* 模块上下文结构
+    > 一个结构体的静态变量.用于提供解析配置文件过程(开始,结束等)的回调函数,方便模块自定义解析配置的过程.
+* 模块的定义
+    > 模块的定义信息,相当于告诉nginx,这个模块是什么类型的模块,上下文是啥,配置命令是啥等等信息.
+* 模块的挂载函数
+    > 将模块挂载到指定的处理阶段([挂载阶段](nginx架构.md)),这样,nginx在对应的阶段就会调用模块的处理函数进行处理
+* 模块的处理函数
+    > 真正处理问题的函数.通过挂载到不同阶段,当运行到这个阶段就会调用(不一定)这个处理函数.
 
-    {
-        ngx_string("hello_counter"),
-        NGX_HTTP_LOC_CONF|NGX_CONF_FLAG,
-        ngx_http_hello_counter,
-        NGX_HTTP_LOC_CONF_OFFSET,
-        offsetof(ngx_http_hello_loc_conf_t, hello_counter),
-        NULL },
+### 调用模块过程
+nginx解析配置文件-> 调用模块上下文中对应的回调函数 -> 回调函数中创建一个模块配置信息结构体的变量 -> 遇到模块配置命令,解析命令,将值放到模块的配置信息中.
+nginx调用模块挂载函数,将模块处理函数挂载到相应的阶段,这样运行时动态调用.
 
-    ngx_null_command
-};
-```
+### 模块编译
+模块编译时,需要提供一个`config`文件,告诉nginx模块的定义和模块的源码文件.方便编译.
+### 例子
+查看[hello_module](hello_module)
