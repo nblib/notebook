@@ -169,3 +169,36 @@ if operator == 'match' then
     elseif operator == '>' then
 ```
 主要判断是根据正则还是等号,然后调用相应的方法,判断是否一样.
+
+# 判断复杂条件
+复杂条件的意思为将and和or条件结合起来,通过形如:`(v[1] and v[2]) or v[3]`的表达式,对条件语句进行结合,具体判断过程为:
+* 遍历条件,将and或or的条件是否成立判断出来
+* 执行解析复杂条件表达式,将上一步的判断结果进一步的结合判断,最终得到复杂条件的结果.
+``` 
+function _M.filter_complicated_conditions(expression, conditions, plugin_name)
+    if not expression or expression == "" or not conditions then return false end
+
+    local params = {}
+    for i, c in ipairs(conditions) do
+        -- 循环执行普通条件的判断,把true和false的返回结果放到表中
+        table_insert(params, condition.judge(c))
+    end
+    -- 根据表达式对普通条件的执行结果合并,最终得到是否成立.
+    local ok, condition = _M.parse_conditions(expression, params)
+    if not ok then return false end
+
+    local pass = false
+    local func, err = loadstring("return " .. condition)
+    if not func or err then
+        ngx.log(ngx.ERR, "failed to load script: ", condition)
+        return false
+    end
+
+    pass = func()
+    if pass then
+        ngx.log(ngx.INFO, "[", plugin_name or "", "]filter_complicated_conditions: ", expression)
+    end
+
+    return pass
+end
+```
