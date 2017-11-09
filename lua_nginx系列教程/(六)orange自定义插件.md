@@ -2,7 +2,7 @@
 `nginx`的执行阶段分为多个阶段,每一个阶段执行的时候会调用挂载在这个阶段的模块和方法.
 
 `lua_nginx_module`模块通过挂载在不同阶段与nginx相结合,将nginx的阶段对应为lua的命令.而orange又基于`lua_nginx_module`模块,对应了自己的方法.大致描述如下:
-![阶段对应](nginx_lua_orange对应阶段.png)
+![阶段对应](img/nginx_lua_orange对应阶段.png)
 当一个请求到来时,比如重写阶段`rewrite`,当nginx执行到这个阶段的时候,会执行绑定这个阶段的模块也就是lua模块中的`rewrite_by_lua*`中的代码,而orange则将自己对应的`Orange.rewrite()`方法放到了这里,于是就执行了Orange方法
 
 当orange执行`Orange.rewrite()`方法时,遍历初始化找到的插件,然后调用插件的`hanlder:rewrite()`方法.
