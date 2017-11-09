@@ -1,0 +1,1 @@
+参考[orange的安装](../nginx笔记/安装教程/安装orange.md)
