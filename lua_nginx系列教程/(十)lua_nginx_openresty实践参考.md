@@ -1,0 +1,1 @@
+nginx,lua,openresty可以参考:[openresty最佳实践](https://github.com/nblib/openresty-best-practices),进去查看README中的目录.
