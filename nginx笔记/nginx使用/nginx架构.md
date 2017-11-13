@@ -3,7 +3,7 @@
 nginx架构
 ===
 nginx在启动后，会有一个master进程和多个worker进程。进程模型如下:
-![进程模型](./process_model.png)
+![进程模型](../../img/nginx/process_model.png)
 
 
 ### 指令上下文

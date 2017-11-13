@@ -86,7 +86,7 @@ server{
 1. 添加选择器
 2. 添加规则
 3. 编辑规则,添加需要转发的url,指向特定的upstream,主机可以不填,默认为当前请求头中的主机:
-![编辑规则](img/divide/分流配置.png)
+![编辑规则](../img/nginx/nginx_lua/orange/divide/分流配置.png)
 4. 当访问指定的url的时候,会被代理到指定的`upstream`.
 
 另可参考: http://orange.sumory.com/docs/usages/divide/

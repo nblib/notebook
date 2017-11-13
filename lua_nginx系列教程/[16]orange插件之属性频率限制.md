@@ -9,7 +9,7 @@
 1. 添加选择器
 2. 添加规则
 3. 编辑规则,比如对所有的主机限制每秒只能访问三次:
-![编辑规则](img/propertyrate/编辑规则.png)
+![编辑规则](../img/nginx/nginx_lua/orange/propertyrate/编辑规则.png)
 4. 同一个ip的主机访问超过限制时,会返回'429'状态码.
 
 ## 原理

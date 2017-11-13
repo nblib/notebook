@@ -18,7 +18,7 @@
 * 添加选择器(勾选启动框)
 * 添加规则(勾选启动框)
 * 查看视图
-![界面](img/自定义监控.png)
+![界面](../img/nginx/nginx_lua/orange/自定义监控.png)
 ### URL重定向
 ######作用
 301,302的重定向,
@@ -43,7 +43,7 @@
 * 添加一个规则,设置关键字的位置,比如:查询条件,请求头等
 * 比如设置在请求头中,必须包含键值对:`aaa:bbb`
 * 请求的时候,必须在请求头中添加如上键值对,不然拒绝访问
-![关键字认证](img/关键字认证.png)
+![关键字认证](../img/nginx/nginx_lua/orange/关键字认证.png)
 ### Signature Auth(签名认证)
 采用md5加密请求参数,进行验证,可参考[Signature Auth(签名认证)](https://github.com/sumory/orange/issues/72)
 ### Rate Limiting (访问限速)

@@ -31,7 +31,7 @@ for 遍历 plugins插件:
 ```
 ###选择器执行过程
 见图:
-![选择器执行](img/选择器执行过程.png)
+![选择器执行](../img/nginx/nginx_lua/orange/选择器执行过程.png)
 ### 关键代码解析
 ###### `judge_util.judge_selector`
 ``` 

@@ -69,6 +69,20 @@ ngx.req.set_uri("/foo", false)
  ngx.req.set_uri_args({a = 3})
  ngx.req.set_uri("/foo", true)
 ```
+在`location`中和`proxy_pass`一起使用
+``` 
+location /seturi{
+    rewrite_by_lua_block{
+         ngx.req.set_uri("/set_by_lua",true)
+     }
+     proxy_pass http://foo.com;
+}
+```
+访问"http://localhost/seturi/.."时,会被重写为"http://localhost/set_by_lua",然后停止执行后面的`proxy_pass`,直接跳到"/set_by_lua"去执行.
+如果把`ngx.req.set_uri("/set_by_lua",true)"的第二个参数`true`取消为`ngx.req.set_uri("/set_by_lua")"或者置为`false`,那么后面的`proxy_pass`
+会继续执行,而由于url被改,那么发送到`proxy_pass`的url就为改后的"http://localhost/set_by_lua".
 
+具体处理流程为:
+![ngx.req.set_uri](../img/nginx/nginx_lua/ngx_req_set_uri处理流程.png)
 ### 还有ngx.location.capture
 发送一个同步非阻塞的子请求,类似于"HttpClient".

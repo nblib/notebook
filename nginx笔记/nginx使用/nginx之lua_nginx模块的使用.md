@@ -29,7 +29,7 @@ nginx -p `pwd`/ -c conf/nginx.conf
 
 # lua_nginx模块的命令
 ## 命令运行阶段
-![阶段对应图](lua_nginx_命令执行阶段.png)
+![阶段对应图](../../img/nginx/nginx_lua/lua_nginx_命令执行阶段.png)
 ## 常用命令
 #### init_by_lua_*
 **syntax**: init_by_lua <lua-script-str>   
