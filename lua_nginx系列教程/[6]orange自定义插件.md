@@ -79,7 +79,24 @@ end
 ```
  lua_shared_dict healthcheck 1m;
 ```
-这样一个插件编写完成,同时还需要在`conf/orange.conf`中添加这个插件的名称,和上面的文件夹名称相同:`health`
+这样一个插件编写完成,同时还需要在`conf/orange.conf`中添加这个插件的名称,和上面的文件夹名称相同:`health`:
+``` 
+    "plugins": [
+        "stat",
+        "monitor",
+        "redirect",
+        "rewrite",
+        "rate_limiting",
+        "property_rate_limiting",
+        "basic_auth",
+        "key_auth",
+        "signature_auth",
+        "waf",
+        "divide",
+        "kvstore",
+        "health"
+    ],
+```
 ###测试
 启动orange,访问`ip:9999/health/stat`可以看到如下信息,表示成功:
 ``` 
