@@ -90,6 +90,11 @@ json_text = cjson.encode(value)
     * 不符合json规范的数字(infinity,NaN)
     * 表嵌套超过1000层
     * 过度稀疏lua数组
+```
+value = { true, { foo = "bar" } }
+json_text = cjson.encode(value)
+-- Returns: '[true,{"foo":"bar"}]'
+```
 ## 编码设置
 1. encode_invalid_numbers
     * true : 允许编码不可用的值.
@@ -112,3 +117,75 @@ json_text = cjson.encode(value)
     cjson.encode({ [1000] = "excessively sparse" })
     -- Returns: '{"1000":"excessively sparse"}'
     ```
+    
+## 变量
+null
+>解析json字符串的null值,会被解析为cjson.null.判断时```if value == cjson.null then ... end```,
+## `lua_cjson`模块中可用方法和变量
+* `cjson.encode_empty_table_as_object(true|false|"on"|"off")`  
+默认为`true`,空的lua 表会被编码为空的json对象`{}`,如果设为`false`,那么会被编码为json数组`[]`
+* `cjson.empty_array`  
+一个`lightuserdata`,类似`cjson.null`,这个值将会被编码为空的json数组`[]`
+```
+local cjson = require "cjson"
+
+local json = cjson.encode({
+    foo = "bar",
+    some_object = {},
+    some_array = cjson.empty_array
+})
+```
+将会生成json串:
+``` 
+{
+    "foo": "bar",
+    "some_object": {},
+    "some_array": []
+}
+```
+* `setmetatable({}, cjson.array_mt)`  
+表会被生成json的数组
+``` 
+local t = { "hello", "world" }
+setmetatable(t, cjson.array_mt)
+cjson.encode(t) -- ["hello","world"]
+```
+生成:
+``` 
+local t = {}
+t[1] = "one"
+t[2] = "two"
+t[4] = "three"
+t.foo = "bar"
+setmetatable(t, cjson.array_mt)
+cjson.encode(t) -- ["one","two",null,"three"]
+```
+* `setmetatable({}, cjson.empty_array_mt)`  
+用于标识一个表,如果一个表是空的,会生成一个json数组(不然会被忽略),下面两种情况相同:
+``` 
+local function serialize(arr)
+    if #arr < 1 then
+        arr = cjson.empty_array
+    end
+
+    return cjson.encode({some_array = arr})
+end
+```
+和上面相同:
+``` 
+local function serialize(arr)
+    setmetatable(arr, cjson.empty_array_mt)
+
+    return cjson.encode({some_array = arr})
+end
+```
+最终结果都是:
+``` 
+{
+    "some_array": []
+}
+```
+* `encode_number_precision`   
+修改了cjson默认`1-14`位,这里可以为`1-16`位.
+
+
