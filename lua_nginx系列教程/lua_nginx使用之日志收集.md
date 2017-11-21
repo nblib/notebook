@@ -2,7 +2,7 @@
 将日志记录发送到远程服务器,对日志记录进行分析.
 # 环境准备
 * openresty: lua_nginx集成环境
-* lua-resty-logger-socket库: 用于发送日志到远程服务器
+* lua-resty-logger-socket库: 用于发送日志到远程服务器(用git克隆下来后复制里面的./resty/logger文件夹到/usr/local/openresty/lualib/resty文件夹中)([地址](https://github.com/cloudflare/lua-resty-logger-socket))
 * logstash: 远程日志收集服务器
 * elasticsearch: 日志储存和分析
 
@@ -130,6 +130,7 @@ syntax: bytes, err = logger.flush()
 ```
 清理缓冲区的内容到远程服务器,不需要手动调用,当缓冲区满了后,会自动调用.
 ## logstash配置
+可参考:[logstash的使用](../日志系统系列教程/logstash使用之日志文件处理.md)
 修改logstash.conf.
 ``` 
 input{

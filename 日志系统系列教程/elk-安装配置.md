@@ -31,8 +31,12 @@ curl 'http://localhost:9200/'
 ##### 下载安装包
 [logstash下载地址](https://www.elastic.co/downloads/logstash)
 ##### 解压
+``` 
+tar zxf logstash-XX-XX.tar.gz
+```
 ##### 测试
 ```
+cd logstash
 # 在控制台输入,在控制台输出
 bin/logstash -e 'input { stdin { } } output { stdout {} }'
 ```
