@@ -6,7 +6,7 @@
 * logstash: 远程日志收集服务器
 * elasticsearch: 日志储存和分析
 
-
+**不推荐使用!!**
 # 使用
 ## nginx配置
 ```
