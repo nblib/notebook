@@ -9,7 +9,7 @@
       "@version" => "1",
           "host" => "localhost",
     "@timestamp" => 2017-11-23T08:40:16.868Z,
-       "message" => "name=nihao"
+       "message" => "{\"name\":\"nihao\"}"
 }
 ```
 也就是说,如果存到数据库中,会保存以上四个字段到表中,而我们的记录的内容被简单的记录到`message`字段中,如果我们需要分析这条
