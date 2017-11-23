@@ -44,6 +44,17 @@
 ``` 
 {"@version":"1","host":"localhost","@timestamp":"2017-11-23T09:42:14.798Z","message":"nihao"}
 ```
+配置信息如下:
+``` 
+input {
+    stdin{}
+}
+output{
+    stdout{
+        codec => json
+    }
+}
+```
 除了输入的内容外,还添加了一些额外的信息.
 
 # 使用
