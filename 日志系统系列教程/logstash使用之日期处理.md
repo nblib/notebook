@@ -3,6 +3,8 @@
 
 日期进行处理后,可以在kibana中用于统计和分析.
 
+# 参考
+[logstash帮助文档](https://www.elastic.co/guide/en/logstash/current/plugins-filters-date.html#plugins-filters-date-locale)
 # 简单使用
 ``` 
 input{
