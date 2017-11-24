@@ -1,5 +1,8 @@
 lua json的解析和编译
 ===
+## 参考
+* [lua-cjson-manual](https://www.kyne.com.au/~mark/software/lua-cjson-manual.html)
+* [lua-cjson](https://github.com/openresty/lua-cjson/)
 ## 摘要(Synopsis)
 ```
 local cjson = require "cjson"

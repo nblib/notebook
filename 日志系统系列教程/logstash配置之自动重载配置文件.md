@@ -21,3 +21,7 @@ kill -1 <pid>
 * 检查失败,使用旧的继续工作.
 
 在重载过程中,`jvm`没有重启.
+
+# 注意事项
+* `stdin`输入插件不支持自动重启.
+* `syslog`作为输入源,当重载配置文件时,会崩溃.请看: https://github.com/logstash-plugins/logstash-input-syslog/issues/40

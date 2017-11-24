@@ -1,3 +1,5 @@
+# 参考
+[Wikipedia-syslog](https://en.wikipedia.org/wiki/Syslog)
 # 摘要
 `syslog`是一个消息日志的标准.允许软件生成消息交由系统储存,再由别的软件进行传达和分析.
 
