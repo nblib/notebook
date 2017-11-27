@@ -52,6 +52,8 @@
 * `log4net_demo.vshost.exe`: 表示日志的输出源
 * `:`: 表示分割符,后面的内容为真正输出的日志内容.
 
+> `syslog`可以参考: http://blog.csdn.net/smstong/article/details/8919803
+
 如上,`RemoteSyslogAppender`的syslog格式(并非在log4net中配置的格式)为: `<优先级><日志源>:<日志内容>`,然而logstash解析的syslog
 格式为`<优先级><时间> 主机 日志源:<日志内容>`',和log4net输出不同,解析会出错.
 

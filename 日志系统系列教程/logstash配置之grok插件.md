@@ -45,3 +45,42 @@ filter {
   }
 }
 ```
+# 选项
+### `overwrite`
+比如在`match`中`%{POSTFIX_QUEUEID:field_name}`将匹配到的内容赋值给了字段`field_name`,如果
+`field_name`不存在的话,便会新建一个,如果存在的话,会变成一个数组,追加内容 .
+
+通过添加`overwrite`选项,可以在已经存在的时候,进行内容覆盖,而不是作为数组.
+
+比如输入内容为"119.29.2.209 is a ip addrss ":
+不加`overwrite`:
+```
+filter{
+    grok {
+        match => {
+            "message" => "%{IP:message}"
+        }
+    }
+}
+```
+生成的message内容:
+``` 
+ "message" => [
+        [0] "119.29.2.209 is a ip addrss ",
+        [1] "119.29.2.209"
+```
+添加`overwrite`选项:
+``` 
+filter{
+    grok {
+        match => {
+            "message" => "%{IP:message}"
+        }
+    }
+    overwrite => ["message"]
+}
+```
+生成的内容:
+``` 
+    "message"  => "119.29.2.209"
+```
