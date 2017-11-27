@@ -43,32 +43,52 @@
 * 通过使用`log4net.Appender.RemoteSyslogAppender`进行传输
 
 # 和`logstash`结合
-log4net的日志,使用logstash接收后会出现无法解析`facility`和`severity`的情况,可以配置logstash添加插件
+和`logstash`结合使用的话,`RemoteSyslogAppender`会发送如下格式的内容:
 ``` 
-filter{
-    syslog_pri{
+<9>log4net_demo.vshost.exe: FATAL log4net_demo.Program: fffffffffffffffff
+```
+* <9>: 表示优先级,结合了`syslog`标准的`facility`和`severity`,具体计算过程为:9的二进制的低三位表示`severity`,即`severity`
+为1,按照`syslog`标准为`error`级别,其余位右移三位表示`facility`,即`facility`为1,表示`user-level`级别的信息.
+* `log4net_demo.vshost.exe`: 表示日志的输出源
+* `:`: 表示分割符,后面的内容为真正输出的日志内容.
+
+如上,`RemoteSyslogAppender`的syslog格式(并非在log4net中配置的格式)为: `<优先级><日志源>:<日志内容>`,然而logstash解析的syslog
+格式为`<优先级><时间> 主机 日志源:<日志内容>`',和log4net输出不同,解析会出错.
+
+解决方法有: 修改`RemoteSyslogAppender`为`UdpAppender`,自己定义格式;或者修改logstash的接收为`udp`,然后自己定义pattern,
+下面介绍第二种:
+
+log4net的日志,使用logstash接收后会出现无法解析`facility`和`severity`的情况,修改input,配置logstash添加插件
+``` 
+input {
+    udp{
+        port => 3423
     }
 }
+filter{
+     grok {
+         match => {
+             "message" => "<%{POSINT:priority}>"
+         }
+     }   
+     syslog_pri {
+         syslog_pri_field_name => "priority"
+     }
+}
 ```
-* `syslog_pri`用于解析`log4net`的`PRI`字段,解析出来`facility`和`severity`,生成的结果如下:
+* 使用grok自定义 `match`提取message中的优先级编号,放到字段`priority`中
+* `syslog_pri`用于解析`priority`字段,解析出来`facility`和`severity`,生成的结果如下:
 ``` 
 {
-                "severity" => 0,
-    "syslog_severity_code" => 5,
+              "@timestamp" => 2017-11-27T06:28:17.833Z,
+    "syslog_severity_code" => 1,
          "syslog_facility" => "user-level",
-    "syslog_facility_code" => 1,
-                 "message" => "<11>log4net_demo.vshost.exe: ERROR log4net_demo.Program: eeeeeeeeeeeeeeee",
-                "priority" => 0,
-         "syslog_severity" => "notice",
-                    "tags" => [
-        [0] "_grokparsefailure_sysloginput"
-    ],
-              "@timestamp" => 2017-11-24T10:10:44.080Z,
                 "@version" => "1",
                     "host" => "192.168.233.1",
-                "facility" => 0,
-          "severity_label" => "Emergency",
-          "facility_label" => "kernel"
+    "syslog_facility_code" => 1,
+                 "message" => "<9>log4net_demo.vshost.exe: FATAL log4net_demo.Program: fffffffffffffffff",
+                "priority" => "9",
+         "syslog_severity" => "alert"
 }
 ```
 * syslog生成`syslog_`开头的解析结果
