@@ -1,5 +1,6 @@
 # 参考
 [Wikipedia-syslog](https://en.wikipedia.org/wiki/Syslog)
+这里写的不全面,可以看这篇博客,写的比较清晰全面: [这里](http://blog.csdn.net/smstong/article/details/8919803)
 # 摘要
 `syslog`是一个消息日志的标准.允许软件生成消息交由系统储存,再由别的软件进行传达和分析.
 
