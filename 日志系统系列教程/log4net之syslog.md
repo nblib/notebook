@@ -57,7 +57,11 @@
 如上,`RemoteSyslogAppender`的syslog格式(并非在log4net中配置的格式)为: `<优先级><日志源>:<日志内容>`,然而logstash解析的syslog
 格式为`<优先级><时间> 主机 日志源:<日志内容>`',和log4net输出不同,解析会出错.
 
-解决方法有: 修改`RemoteSyslogAppender`为`UdpAppender`,自己定义格式;或者修改logstash的接收为`udp`,然后自己定义pattern,
+### 解决方法
+有两种:
+* 修改`RemoteSyslogAppender`为`UdpAppender`,自己定义格式;
+* 修改logstash的接收为`udp`,然后自己定义pattern,
+
 下面介绍第二种:
 
 log4net的日志,使用logstash接收后会出现无法解析`facility`和`severity`的情况,修改input,配置logstash添加插件
@@ -94,3 +98,30 @@ filter{
 }
 ```
 * syslog生成`syslog_`开头的解析结果
+
+#### 提取日志源和覆盖`message`
+下面是从logstash的插件`logstash-input-syslog`中提取出来的几个表达式,用于提取日志内容中的日志源和真正记录的内容覆盖原始的
+`message`:
+``` 
+ grok {
+        match => {
+            "message" => "<%{POSINT:priority}>%{SYSLOGHOST:logsource}+:%{GREEDYDATA:message}"
+        }
+        overwrite => ["message"]
+    }
+```
+输入:`<23>demo.vshost.exe:this is log`生成如下:
+``` 
+{
+              "@timestamp" => 2017-11-27T09:16:16.942Z,
+    "syslog_severity_code" => 7,
+         "syslog_facility" => "mail",
+                "@version" => "1",
+                    "host" => "192.168.233.129",
+    "syslog_facility_code" => 2,
+                 "message" => "this is log",
+                "priority" => "23",
+               "logsource" => "demo.vshost.exe",
+         "syslog_severity" => "debug"
+}
+```
