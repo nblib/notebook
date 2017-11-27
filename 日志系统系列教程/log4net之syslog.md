@@ -125,3 +125,12 @@ filter{
          "syslog_severity" => "debug"
 }
 ```
+##### 注意
+存在`%{SYSLOGHOST:logsource}`为路径的情况时,比如`/LM/W3SVC/7`,可以使用正则匹配两个
+``` 
+"message" => "<%{POSINT:priority}>(?:%{UNIXPATH:logsource}|%{SYSLOGHOST:logsource}):%{GREEDYDATA:message}"
+```
+* `UNIXPATH`,匹配带有`/`的字符串
+* `SYSLOGHOST`匹配带有`.`的字符串
+
+将二者添加为或关系可以选择性的匹配.
