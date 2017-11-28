@@ -9,7 +9,7 @@ input{
 filter{
     grok {
         match => {
-            "message" => "<%{POSINT:priority}>(?:%{SYSLOGTIMESTAMP:timestamp} |%{TIMESTAMP_ISO8601:timestamp8601} )?(?:%{SYSLOGFACILITY} )?(?:%{SYSLOGHOST:logsource}|%{UNIXPATH:logsource})+(?: %{SYSLOGPROG}|): %{GREEDYDATA:message}"
+            "message" => "<%{POSINT:priority}>(?:%{SYSLOGTIMESTAMP:timestamp} |%{TIMESTAMP_ISO8601:timestamp8601} )?(?:%{SYSLOGFACILITY} )?(?:%{SYSLOGHOST:logsource}|%{UNIXPATH:logsource})+(?: %{SYSLOGPROG}|):? %{GREEDYDATA:message}"
         }
         overwrite => ["message"]
     }
