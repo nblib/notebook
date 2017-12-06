@@ -9,8 +9,8 @@ import (
 	"net"
 	"fmt"
 	"os"
-	"bytes"
-	"strconv"
+	"io"
+	"strings"
 )
 
 /*
@@ -48,8 +48,7 @@ func NewSysLogWriter(proto, hostport string) SocketLogWriter {
 		}()
 
 		for rec := range w {
-			results := buildSyslog(rec)
-			_, err = sock.Write(results)
+			err := writeSyslog(sock, rec)
 			if err != nil {
 				fmt.Fprint(os.Stderr, "SocketLogWriter(%q): %s", hostport, err)
 				return
@@ -59,10 +58,8 @@ func NewSysLogWriter(proto, hostport string) SocketLogWriter {
 
 	return w
 }
-func buildSyslog(rec *LogRecord) []byte {
-	var results *bytes.Buffer
-	//toString
-	results = new(bytes.Buffer)
+func writeSyslog(w io.Writer, rec *LogRecord) error {
+
 	var severity, facility, priority int
 	var createdStr, logSource, program, message string
 
@@ -72,25 +69,29 @@ func buildSyslog(rec *LogRecord) []byte {
 
 	createdStr = rec.Created.Format("Jan 2 15:04:05")
 	//var js []byte
-	logSource, err := os.Hostname()
-	if err != nil {
-		logSource = "UNKNOWN-HOST"
-	}
+	logSource, _ = os.Hostname()
+
 	program = rec.Source
 	message = rec.Message
+	nl := ""
+	if !strings.HasSuffix(message, "\n") {
+		nl = "\n"
+	}
 
-	results.WriteString("<")
-	results.WriteString(strconv.Itoa(priority))
-	results.WriteString(">")
-	results.WriteString(createdStr)
-	results.WriteString(" ")
-	results.WriteString(logSource)
-	results.WriteString(" ")
-	results.WriteString(program)
-	results.WriteString(": ")
-	results.WriteString(message)
-
-	return results.Bytes()
+	_, err := fmt.Fprintf(w, "<%d>%s %s %s: %s%s",
+		priority, createdStr, logSource, program,
+		message, nl)
+	return err
+	//results.WriteString("<")
+	//results.WriteString(strconv.Itoa(priority))
+	//results.WriteString(">")
+	//results.WriteString(createdStr)
+	//results.WriteString(" ")
+	//results.WriteString(logSource)
+	//results.WriteString(" ")
+	//results.WriteString(program)
+	//results.WriteString(": ")
+	//results.WriteString(message)
 }
 func calculatePriority(facility, severity int) int {
 	return facility<<3 | severity
@@ -110,6 +111,7 @@ func determineSeverity(lev level) int {
 	}
 	return SYSLOG_NOTICE
 }
+
 ```
 输出的格式为:
 ``` 
