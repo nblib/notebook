@@ -27,3 +27,4 @@
   如果有其它线程调用了wakeup()方法，但当前没有线程阻塞在select()方法上，下个调用select()方法的线程会立即“醒来（wake up）”。
 * 注意每次迭代末尾的keyIterator.remove()调用。Selector不会自己从已选择键集中移除SelectionKey实例。必须在处理完通道时自己移除。下次该通道变成就绪时，Selector会再次将其放入已选择键集中。
 * FileChannel这个类不能注册到Selector上面去，分析源码找原因：因为register()这个函数是在SelectableChannel这个类里面的，而除了FileChannel以外其余的三种类型channel都是继承于SelectableChannel这个抽象类。
+* `selectKey`的`clean()`方法,会将当前注册到`selector`中的channel移除,以后这个channel发生的事件不会被`selector`收到.
