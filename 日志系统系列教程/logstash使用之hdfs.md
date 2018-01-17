@@ -40,9 +40,27 @@ output{
 2. logstash报错`serverError`
 
 查看hdfs是否正常允许,是否处于安全模式,处于安全模式,则关闭安全模式
+3. 输出的日志内容为 @timestamp host message 的格式
+
+添加`codec`:
+```
+output{
+         webhdfs {
+    host => "l22-232-13"                 # (required)
+    port => 14000                       # (optional, default: 50070)
+    path => "/user/logstash1/dt=%{+YYYY-MM-dd}/logstash-%{+HH}.log"  # (required)
+    user => "logstash"                       # (required)
+codec => plain { format => "%{message}"}
+#    compression => "snappy"
+  }
+#       stdout{codec=> rubydebug}
+}
+```
 # 用到的命令
 * `./bin/logstash -f config/loghdfs.conf`
 > 根据配置文件启动`logstash
+* `nohup ./bin/logstash -f config/loghdfs.conf --config.reload.automatic > loginfo.out & echo $! > pid.out`
+> 后台启动,并记录pid
 * `hadoop fs -ls /user/logstash`
 > 查看目录
 * `hadoop fs -tail /user/logstash/dt=2018-01-16/logstash-02.log`
