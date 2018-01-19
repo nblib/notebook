@@ -42,3 +42,6 @@ events=PROCESS_STATE_EXITED
 supervisorctl  pid top
 ```
 然后使用kill命令杀死进程.这样会收到邮件
+
+# 自定义
+如果需要自定义,可以参考`superlance`项目
