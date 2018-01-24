@@ -12,4 +12,7 @@ if __name__ == '__main__':
     print(type(sf))
     print(sf.tm_yday) #一年中的天
     print(sf.tm_year) #年
+    
+    # 格式化
+    time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 ```
