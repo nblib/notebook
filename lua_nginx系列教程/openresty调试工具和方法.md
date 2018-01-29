@@ -15,6 +15,7 @@ events {
 http {
     lua_package_path '/opt/zbstudio/lualibs/?/?.lua;/opt/zbstudio/lualibs/?.lua;;';
     lua_package_cpath '/opt/zbstudio/bin/linux/x64/clibs/?.so;;';
+    lua_code_cache off;
     server {
         listen 8080;
         location /hellolua {
@@ -42,6 +43,31 @@ require('mobdebug').done()
 2. 打开要调试文件`content.lua`,点击`Project | Project Directory | Set From Current File.`
 ## 启动`nginx`
 启动`openresty`后,使用浏览器进入`localhost/hellolua`,如果配置正确,这个时候可以看到`ZeroBrane`中已经进入了断点调试模式.
+# 远程调试
+比如要调试文件`content.lua.
+## 配置运行openresty的机器
+* 复制`<ZBS>/lualibs/mobdebug/mobdebug.lua`到` content.lua`同一个目录下.
+* 复制`<ZBS>/lualibs/socket.lua`到` content.lua`同一个目录下.
+* 复制`<ZBS>/bin/clibs/socket/core.so`到content.lua同一个目录下的`socket`文件夹中.
 
+最后的目录结构:
+```
+- content.lua
+- mobdebug.lua
+- socket.lua
+- socket
+---- core.so
+```
+* content.lua中,`require('mobdebug').start('10.169.3.135')`,ip填写要运行`ZeroBrane`的主机的ip地址
+## 配置`zeroBrane`运行的主机
+复制一份content.lua到机器上
+1. 确保勾选`project->start debugger server`
+2. 打开要调试文件`content.lua`,点击`Project | Project Directory | Set From Current File.`
+## 启动`nginx`
+启动`openresty`后,使用浏览器进入`localhost/hellolua`,如果配置正确,这个时候可以看到`ZeroBrane`中已经进入了断点调试模式.
+
+# 注意问题
+* 如果需要实时修改调试而不重启openresty,确保配置`lua_code_cache off;`
+* 远程调试`redis`时,由于调试和运行不在同一位置,会出现超时情况,这时,设置redis.timeout()时间长一些,比如一百秒:`100000`
 # 参考
 http://notebook.kulchenko.com/zerobrane/debugging-openresty-nginx-lua-scripts-with-zerobrane-studio
