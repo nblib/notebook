@@ -1,4 +1,7 @@
 # 摘要(Synopsis)
+# 注意
+* 不能在`init_worker_*`,`init_by_lua_*`阶段使用
+* 域名解析出现超时,或不能解析的问题,建议使用`ip`
 ``` 
 # you do not need the following line if you are using
 # the OpenResty bundle:
