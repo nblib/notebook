@@ -5,7 +5,9 @@
     * google.golang.org/grpc   对应的代码地址在： https://github.com/grpc/grpc-go 
     * golang.org/x/net/context 对应的代码地址在： https://github.com/golang/net
     * google.golang.org\genproto 对应的代码地址在: https://github.com/google/go-genproto.git
-     
+    * golang.org/x/net  对应代码地址为: https://github.com/golang/net
+    * golang.org/x/text 对应代码地址为: https://github.com/golang/text
+    
      如果运行时,还缺少包,则在git上找到相应的包然后再复制到相应的目录
 ## 过程
 1. 下载protoc编译`proto`文件的编译工具: https://github.com/google/protobuf/releases,找到合适系统的版本`prtoc-XXX.zip`
