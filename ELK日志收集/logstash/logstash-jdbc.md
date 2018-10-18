@@ -23,6 +23,22 @@ output {
 ```
 ## 示例
 
+### 传参数
+```
+input {
+  jdbc {
+    jdbc_driver_library => "mysql-connector-java-5.1.36-bin.jar"
+    jdbc_driver_class => "com.mysql.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://localhost:3306/mydb"
+    jdbc_user => "mysql"
+    parameters => { "favorite_artist" => "Beethoven" }
+    schedule => "* * * * *"
+    statement => "SELECT * from songs where artist = :favorite_artist"
+  }
+}
+```
+通过`parameters`传递参数,在sql语句中使用`:<参数名>`获取参数
+
 ### 下次查询根据上次查询的结果进行查询
 #### 使用场景
 * 我们的数据库中数据为ID自增,那么我们这次要查询的数据要排除掉上一次的数据,因为不想同样的数据差两次.
@@ -187,6 +203,9 @@ output {
 
 - schedule
     > 设置查询数据的周期,最小单位为分钟,也就是最快为没分钟执行一次.配置cron字符串为 "* * * * *",如果没有设置,默认为启动后执行一次,后续不再执行.
+- parameters
+  > 为sql传参数
+      
 ## 调试
 * 刚启动的时候,如果driver没有找到或数据库连接配置错误,不会报错,只有第一次获取数据的时候才会报错
 
