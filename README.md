@@ -26,16 +26,12 @@
 
 ##### GIT
 * [GIT教程](https://git-scm.com/book/zh/v2)
-*
 
 ##### GO
 * [GO入门指南](https://github.com/Unknwon/the-way-to-go_ZH_CN/blob/master/eBook/directory.md)
-* [Golang modules 初探]
-(https://my.oschina.net/u/553243/blog/1934149)
-* [使用pprof调试golang和go的性能分析]
-(https://cizixs.com/2017/09/11/profiling-golang-program/)
-* [beego go语言国内常用web框架]
-(https://beego.me/)
+* [Golang modules 初探](https://my.oschina.net/u/553243/blog/1934149)
+* [使用pprof调试golang和go的性能分析](https://cizixs.com/2017/09/11/profiling-golang-program/)
+* [beego go语言国内常用web框架](https://beego.me/)
 
 ##### scala
 * [scala语言指南]
