@@ -1,6 +1,6 @@
-#概述
+# 概述
  Lua 提供了元表(Metatable)，允许我们改变table的行为，每个行为关联了对应的元方法。
-#本质
+# 本质
 元表本质为给table添加了一个键值对,键为`__metatable`,值为一个表,当对原始表操作的时候,就会去这个表中找键值对,比如`__index`,`__call`等键,然后找到对应的值,值可以是一个值或方法,结构大致如下:
 ```table
 {
@@ -16,7 +16,7 @@
     ...
 }
 ```
-#定义
+# 定义
 通过两个函数进行操作元表:
 * `setmetatable(table, metatable)`  
 对指定table设置元表(metatable)，如果元表(metatable)中存在__metatable键值，setmetatable会失败。
@@ -29,7 +29,7 @@ mymetatable = {}                      -- 元表
 setmetatable(mytable,mymetatable)     -- 把 mymetatable 设为 mytable 的元表 
 getmetatable(mytable)                 -- 这回返回mymetatable
 ```
-#`metatable`常用键
+# `metatable`常用键
 ### `__index` 元方法
 * 当你通过键来访问 table 的时候，如果这个键没有值，那么Lua就会寻找该table的metatable（假定有metatable）中的__index 键。
 * 如果__index包含一个表格，Lua会在表格中查找相应的键。
@@ -44,7 +44,7 @@ Lua 5.3.0  Copyright (C) 1994-2015 Lua.org, PUC-Rio
 > t.bar
 nil
 ```
-###`__newindex` 元方法
+### `__newindex` 元方法
 当你给表的一个缺少的索引赋值，解释器就会查找__newindex 元方法：如果存在则调用这个函数而不进行赋值操作。
 ### `__call` 元方法
 `__call` 元方法在 Lua 调用一个值时调用。以下实例演示了计算表中元素的和：
